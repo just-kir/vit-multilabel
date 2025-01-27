@@ -10,6 +10,7 @@ dependencies = [
     "imagehash>=4.3.1",
     "ipywidgets>=8.1.5",
     "matplotlib>=3.10.0",
+    "modal>=0.72.51",
     "numpy>=2.2.2",
     "onnxruntime>=1.20.1",
     "optimum>=1.23.3",
