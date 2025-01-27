@@ -22,7 +22,7 @@ uv run data_generation/fetch_unsplash.py \
   --duplicate_threshold 2
 
 
-uv run data_generation/clip_labeling.py --data_path ../data \
+uv run data_generation/siglip_labeling.py --data_path ../data \
                           --folders Luxurious Cozy Romantic Minimalist Scandinavian Vintage \
                           --model_name openai/clip-vit-base-patch32 \
                           --threshold 0.1 \

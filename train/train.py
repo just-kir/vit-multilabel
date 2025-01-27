@@ -8,8 +8,6 @@ Usage:
 """
 
 import os
-import logging
-
 import numpy as np
 import torch
 from PIL import Image
@@ -23,11 +21,6 @@ from transformers import (
   Trainer,
 )
 from sklearn.metrics import precision_recall_fscore_support, average_precision_score
-
-
-# Configure Logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 
 def main():
@@ -44,14 +37,14 @@ def main():
       "DATA_PATH environment variable must be set to a valid dataset path or identifier."
     )
 
-  logger.info(f"Loading dataset from: {data_path}")
+  print(f"Loading dataset from: {data_path}")
   dataset = load_dataset(data_path)
   dataset_train = dataset["train"]
 
   # --------------------------------------------------------------------
   # 2. Build the label set from the train set
   # --------------------------------------------------------------------
-  logger.info("Building unique label set.")
+  print("Building unique label set.")
   unique_labels = list(
     set(item for sublist in dataset_train["text"] for item in sublist)
   )
@@ -75,13 +68,13 @@ def main():
     example["labels"] = multi_hot
     return example
 
-  logger.info("Encoding labels as multi-hot vectors.")
+  print("Encoding labels as multi-hot vectors.")
   dataset_train = dataset_train.map(encode_labels)
 
   # --------------------------------------------------------------------
   # 4. Train/Test Split
   # --------------------------------------------------------------------
-  logger.info("Performing train/test split.")
+  print("Performing train/test split.")
   split_dataset = dataset_train.train_test_split(test_size=0.2, seed=42)
   train_ds = split_dataset["train"]
   eval_ds = split_dataset["test"]
@@ -89,7 +82,7 @@ def main():
   # --------------------------------------------------------------------
   # 5. Set Up Transforms
   # --------------------------------------------------------------------
-  logger.info("Defining data transformations.")
+  print("Defining data transformations.")
   train_transform = transforms.Compose(
     [
       transforms.RandomResizedCrop(size=224),
@@ -108,7 +101,7 @@ def main():
   # 6. Load Image Processor & Model for Multi-Label
   # --------------------------------------------------------------------
   model_name = "google/vit-base-patch16-224-in21k"
-  logger.info(f"Loading image processor and model: {model_name}")
+  print(f"Loading image processor and model: {model_name}")
   image_processor = AutoImageProcessor.from_pretrained(model_name)
 
   model = AutoModelForImageClassification.from_pretrained(
@@ -205,7 +198,7 @@ def main():
   # --------------------------------------------------------------------
   # 9. Training Arguments & Trainer
   # --------------------------------------------------------------------
-  logger.info("Setting up training arguments.")
+  print("Setting up training arguments.")
   training_args = TrainingArguments(
     output_dir="./output",
     per_device_train_batch_size=16,
@@ -217,7 +210,7 @@ def main():
     logging_steps=50,
   )
 
-  logger.info("Initializing Trainer.")
+  print("Initializing Trainer.")
   trainer = Trainer(
     model=model,
     args=training_args,
@@ -230,9 +223,9 @@ def main():
   # --------------------------------------------------------------------
   # 10. Train!
   # --------------------------------------------------------------------
-  logger.info("Starting training.")
+  print("Starting training.")
   trainer.train()
-  logger.info("Training completed.")
+  print("Training completed.")
 
 
 if __name__ == "__main__":
