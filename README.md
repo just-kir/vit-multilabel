@@ -1,4 +1,4 @@
-# Interior Style Classification
+# Attribute Classification
 
 A minimal pipeline for fetching images from Unsplash, labeling them with CLIP, training a classification model, and running inference.
 
