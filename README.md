@@ -4,7 +4,7 @@ Fetches Unsplash API and deduplicates.
 
 Example usage:
 
-python data_generation/fetch_unsplash.py \
+uv run data_generation/fetch_unsplash.py \
   --access_key YOUR_ACCESS_KEY \
   --save_folder ./data/luxury \
   --queries "luxury apartment" "luxury bed" \
@@ -13,7 +13,7 @@ python data_generation/fetch_unsplash.py \
   --duplicate_threshold 2
 
 
-python data_generation/fetch_unsplash.py \
+uv run data_generation/fetch_unsplash.py \
   --access_key YOUR_ACCESS_KEY \
   --save_folder ./data/luxury \
   --collection_id 90855231 \
@@ -21,6 +21,14 @@ python data_generation/fetch_unsplash.py \
   --remove_duplicates \
   --duplicate_threshold 2
 
+
+uv run data_generation/clip_labeling.py --data_path ../data \
+                          --folders Luxurious Cozy Romantic Minimalist Scandinavian Vintage \
+                          --model_name openai/clip-vit-base-patch32 \
+                          --threshold 0.1 \
+                          --save_to_disk my_interior_dataset
+
+
 ## Training
 
-python train/train.py
+uv run train/train.py
