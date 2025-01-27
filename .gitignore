@@ -176,6 +176,8 @@ cython_debug/
 
 # data
 /data/
+/data_exploration/
+
 
 #experiments
 *.ipynb
